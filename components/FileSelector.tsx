@@ -2,7 +2,11 @@
 
 import { ChangeEvent, useState, useRef } from "react";
 
-export default function FileSelector() {
+interface FileSelectorProps {
+    setTranscription: (transcription: string) => void;
+}
+
+export default function FileSelector({ setTranscription }: FileSelectorProps) {
     const [file, setFile] = useState<File | null>(null)
     const inputFileRef = useRef<HTMLInputElement | null>(null);
 
@@ -42,6 +46,7 @@ export default function FileSelector() {
             }
 
             const result = await response.json()
+            setTranscription(result.transcription)
             return result.transcription
         } catch (err) {
             console.log(err, "<-- ERROR")
@@ -49,7 +54,7 @@ export default function FileSelector() {
     }
 
     return (
-        <form onSubmit={handleGenerate} className='mx-auto max-w-sm md:max-w-md'>
+        <form onSubmit={handleGenerate} className='mb-8 mx-auto max-w-sm md:max-w-md'>
             {/* <label htmlFor="audio-upload" className="text-sm mb-2 font-medium text-zinc-700 dark:text-zinc-300">
                 Pick a file
             </label> */}
