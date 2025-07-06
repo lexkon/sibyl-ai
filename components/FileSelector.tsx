@@ -21,9 +21,31 @@ export default function FileSelector() {
         }
     };
 
-    const handleGenerate = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log("GENERATE MY STUFF")
+
+        if (!file) {
+            return
+        }
+
+        try {
+            const formData = new FormData()
+            formData.append('audio', file)
+
+            const response = await fetch('/api/transcribe', {
+                method: 'POST',
+                body: formData,
+            })
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            const result = await response.json()
+            return result.transcription
+        } catch (err) {
+            console.log(err, "<-- ERROR")
+        }
     }
 
     return (
