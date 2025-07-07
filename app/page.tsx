@@ -13,9 +13,9 @@ export default function Home() {
       <FileSelector setTranscription={setTranscription} />
       {transcription && (
         <>
-          <div className='m-4 text-left max-w-md m-x-auto'>
-            <h3 className='text-2xl font-heading text-zinc-800'>Episode transcription</h3>
-            <p className="font-sans tracking-tight text-zinc-700">{transcription}</p>
+          <div className='m-4 text-left md:max-w-xl max-w-sm mx-auto'>
+            <h3 className='text-2xl mb-2 font-heading text-zinc-800'>Episode transcription</h3>
+            <p className="font-sans text-sm tracking-tight text-zinc-700">{transcription}</p>
           </div>
         </>
       )
