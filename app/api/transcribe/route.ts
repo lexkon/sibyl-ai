@@ -16,10 +16,12 @@ export async function POST(request: NextRequest) {
 
         const transcription = await openai.audio.transcriptions.create({
             file: audioFile,
-            model: 'gpt-4o-mini-transcribe'
+            model: 'gpt-4o-mini-transcribe',
+            response_format: 'text'
         })
 
-        return NextResponse.json({ transcription: transcription.text })
+        return NextResponse.json({ transcription: transcription })
+
     } catch (error) {
         console.error('Transcription error:', error);
         return NextResponse.json({ error: 'Failed to transcribe audio' }, { status: 500 });
