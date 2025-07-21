@@ -9,6 +9,7 @@ interface FileSelectorProps {
 
 export default function FileSelector({ setTranscription, clearAll }: FileSelectorProps) {
     const [file, setFile] = useState<File | null>(null)
+    const [loading, setLoading] = useState(false)
     const inputFileRef = useRef<HTMLInputElement | null>(null);
 
 
@@ -26,12 +27,14 @@ export default function FileSelector({ setTranscription, clearAll }: FileSelecto
         }
     };
 
-    const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleTranscribe = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (!file) {
+        if (!file || loading) {
             return
         }
+
+        setLoading(true)
 
         try {
             const formData = new FormData()
@@ -51,11 +54,13 @@ export default function FileSelector({ setTranscription, clearAll }: FileSelecto
             return result.transcription
         } catch (err) {
             console.log(err, "<-- ERROR")
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
-        <form onSubmit={handleGenerate} className='mb-8 mx-auto max-w-sm md:max-w-md'>
+        <form onSubmit={handleTranscribe} className='mb-8 mx-auto max-w-sm md:max-w-md'>
             <label
                 htmlFor="audio-upload"
                 className="cursor-pointer rounded bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-200"
@@ -86,10 +91,10 @@ export default function FileSelector({ setTranscription, clearAll }: FileSelecto
                         </button>
                         <button
                             type='submit'
-                            disabled={!file}
-                            className="ml-2 rounded bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-200 hover:cursor-pointer"
+                            disabled={!file || loading}
+                            className={`ml-2 rounded bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-200 hover:cursor-pointer ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                            Transcribe
+                            {loading ? "Transcribing..." : "Transcribe"}
                         </button>
                     </div>
                 </>
