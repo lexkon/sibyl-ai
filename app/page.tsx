@@ -16,6 +16,13 @@ export default function Home() {
     })
   }
 
+  const clearAll = () => {
+    setTranscription('')
+    setTitleSuggestions([])
+    setDescriptionSuggestions([])
+  }
+
+
   async function generateTitlesAndDescriptions(transcription: string) {
     const res = await fetch('/api/generate', {
       method: 'POST',
@@ -36,12 +43,12 @@ export default function Home() {
       <h1 className="mt-12 mb-4 text-6xl font-heading text-zinc-950 dark:text-zinc-300">Sibyl</h1>
       <h1 className="mb-8 text-3xl font-heading text-zinc-800 dark:text-zinc-300">Generate podcast titles and descriptions</h1>
 
-      <FileSelector setTranscription={setTranscription} />
+      <FileSelector setTranscription={setTranscription} clearAll={clearAll} />
 
       <hr className="max-w-50 mx-auto my-4 border-zinc-300 dark:border-zinc-600" />
 
       {transcription && (
-        <div className='m-4 text-left md:max-w-xl lg:max-w-4xl max-w-sm mx-auto'>
+        <div className='m-4 text-left md:max-w-xl lg:max-w-4xl max-w-sm mx-auto mb-32'>
           <h3 className='text-2xl mb-2 font-heading text-zinc-950 dark:text-zinc-300'>Transcription</h3>
 
           <button
@@ -50,6 +57,7 @@ export default function Home() {
           >
             {copied ? "Copied!" : "Copy to clipboard"}
           </button>
+
 
           <p className="font-sans text-md tracking-tight text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap">
             {transcription}
@@ -65,7 +73,8 @@ export default function Home() {
           >
             Generate
           </button>
-          <h3 className='text-xl my-2 font-heading text-zinc-950 dark:text-zinc-300'>Titles</h3>
+
+          <h3 className='text-2xl my-2 font-heading text-zinc-950 dark:text-zinc-300'>Titles</h3>
           <ol>
             {titleSuggestsions.map((title, index) => (
               <li key={index} className="list-decimal list-inside font-sans text-md tracking-tight text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap mb-2">
@@ -73,8 +82,10 @@ export default function Home() {
               </li>
             ))}
           </ol>
+
           <br></br>
-          <h3 className='text-xl my-2 font-heading text-zinc-950 dark:text-zinc-300'>Descriptions</h3>
+
+          <h3 className='text-2xl my-2 font-heading text-zinc-950 dark:text-zinc-300'>Descriptions</h3>
           <ol>
             {descriptionsSuggestions.map((description, index) => (
               <li key={index} className="list-decimal list-inside font-sans text-md tracking-tight text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap mb-2">

@@ -4,9 +4,10 @@ import { ChangeEvent, useState, useRef } from "react";
 
 interface FileSelectorProps {
     setTranscription: (transcription: string) => void;
+    clearAll: () => void;
 }
 
-export default function FileSelector({ setTranscription }: FileSelectorProps) {
+export default function FileSelector({ setTranscription, clearAll }: FileSelectorProps) {
     const [file, setFile] = useState<File | null>(null)
     const inputFileRef = useRef<HTMLInputElement | null>(null);
 
@@ -19,7 +20,7 @@ export default function FileSelector({ setTranscription }: FileSelectorProps) {
     const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setFile(null);
-        setTranscription('')
+        clearAll()
         if (inputFileRef.current) {
             inputFileRef.current.value = "";
         }
@@ -88,7 +89,7 @@ export default function FileSelector({ setTranscription }: FileSelectorProps) {
                             disabled={!file}
                             className="ml-2 rounded bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-200 hover:cursor-pointer"
                         >
-                            Generate
+                            Transcribe
                         </button>
                     </div>
                 </>
