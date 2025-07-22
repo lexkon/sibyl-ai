@@ -79,13 +79,13 @@ export default function FileSelector({ setTranscription, clearAll }: FileSelecto
 
             {file && (
                 <>
-                    <p className="text-sm m-4 text-zinc-700">
+                    <p className="text-sm m-4 text-zinc-700 dark:text-zinc-200">
                         Selected: <span className="font-medium">{file.name}</span>
                     </p>
                     <div className="">
                         <button
                             onClick={handleReset}
-                            className="mr-2 rounded bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-200 hover:cursor-pointer"
+                            className="mr-2 rounded bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-200 "
                         >
                             Clear
                         </button>

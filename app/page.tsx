@@ -10,7 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [copied, setCopied] = useState(false)
   const [showFullTranscript, setShowFullTranscript] = useState(false)
-  const truncationLimit = 750
+  const truncationLimit = 300
   const isLong = transcription.length > truncationLimit
   const truncatedTranscript = transcription.slice(0, truncationLimit) + (isLong ? "..." : "")
 
@@ -57,7 +57,8 @@ export default function Home() {
       <hr className="max-w-50 mx-auto my-4 border-zinc-300 dark:border-zinc-600" />
 
       {transcription && (
-        <div className='m-4 text-left md:max-w-xl lg:max-w-4xl max-w-sm mx-auto mb-32'>
+        <div className='px-4 text-left md:max-w-xl lg:max-w-4xl max-w-sm mx-auto mb-32'>
+
           <h3 className='text-2xl mb-2 font-heading text-zinc-950 dark:text-zinc-300'>Transcription</h3>
 
           <button
@@ -73,14 +74,20 @@ export default function Home() {
               {showFullTranscript || !isLong ? transcription : truncatedTranscript}
             </p>
             {isLong && !showFullTranscript && (
-              <div className="pointer-events-none absolute bottom-0 left-0 w-full h-28 bg-gradient-to-b from-transparent to-white" />
+              <div className="pointer-events-none absolute bottom-0 left-0 w-full h-28 
+              bg-gradient-to-b 
+              from-transparent 
+            to-white 
+            dark:to-[#2f3031]"
+              />
+
             )}
           </div>
 
           {isLong && (
             <button
               onClick={() => setShowFullTranscript(prev => !prev)}
-              className="mb-4 text-sm text-zinc-600 underline hover:text-zinc-800 hover:cursor-pointer"
+              className="mb-4 text-sm underline text-zinc-600 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:cursor-pointer"
             >
               {showFullTranscript ? "Show less" : "Show all"}
             </button>
@@ -96,19 +103,17 @@ export default function Home() {
             onClick={() => generateTitlesAndDescriptions(transcription)}
             className={`my-2 rounded bg-zinc-100 px-4 py-2 text-sans text-sm font-semibold text-zinc-700 hover:bg-zinc-200 hover:cursor-pointer ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            {loading ? "Generating" : "Generate"}
+            {loading ? "Generating..." : "Generate"}
           </button>
 
           <h3 className='text-2xl my-2 font-heading text-zinc-950 dark:text-zinc-300'>Titles</h3>
-          <ol>
+          <ol className='mb-6'>
             {titleSuggestsions.map((title, index) => (
-              <li key={index} className="list-decimal list-inside font-sans text-md tracking-tight text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap mb-2">
+              <li key={index} className="list-decimal list-inside font-sans text-md tracking-tighter text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap mb-2">
                 {title}
               </li>
             ))}
           </ol>
-
-          <br></br>
 
           <h3 className='text-2xl my-2 font-heading text-zinc-950 dark:text-zinc-300'>Descriptions</h3>
           <ol>
